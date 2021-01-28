@@ -1,7 +1,26 @@
 const Item = require('../models/item');
+const Category = require('../models/category');
+
+const async = require('async');
 
 exports.index = function (req, res) {
-    res.send('home page');
+    async.parallel(
+        {
+            item_count: function (cb) {
+                Item.countDocuments({}, cb);
+            },
+            category_count: function (cb) {
+                Category.countDocuments({}, cb);
+            },
+        },
+        function (err, results) {
+            res.render('index', {
+                title: 'Inventory Home Page',
+                error: err,
+                data: results,
+            });
+        }
+    );
 };
 
 exports.item_list = function (req, res) {

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <%- include('./partials/head') %>
+    <body>
+        <%- include('./partials/nav') %>
+
+        <div class="page-container">
+            <h1><%= title %></h1>
+
+            <% data.forEach(category => { %>
+            <h3><a href='<%= category.url %> ''><%= category.name %></a></h3>
+            <% }) %>
+        </div>
+    </body>
+</html>

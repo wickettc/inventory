@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <%- include('./partials/head') %>
+    <body>
+        <%- include('./partials/nav') %>
+
+        <div class="page-container">
+            <h1><%= title %></h1>
+
+            <% data.forEach(item => { %>
+            <div class="item-container">
+                <h3><a href="<%= item.url %>"><%= item.name %></a></h3>
+                <div>Category: <%= item.category %></div>
+                <div><%= item.description %></div>
+                <div>$<%= item.price %></div>
+                <div>Available: <%= item.stock_available %></div>
+                <!-- img?? -->
+                <hr />
+            </div>
+            <% }) %>
+        </div>
+    </body>
+</html>

@@ -60,7 +60,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'Backpack',
-                    'Outdoors',
+                    categories[0],
                     'A great hiking backpack',
                     49.99,
                     56,
@@ -70,7 +70,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'Pool Tabel',
-                    'Entertainment',
+                    categories[1],
                     "Let's shoot some pool!",
                     149.99,
                     13,
@@ -80,7 +80,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'Washing Machine',
-                    'Appliance',
+                    categories[3],
                     'Keeps the clothes clean!',
                     489.99,
                     17,
@@ -90,7 +90,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'Fridge',
-                    'Appliance',
+                    categories[3],
                     'Keeps the food cold!',
                     1149.99,
                     9,
@@ -100,7 +100,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'Smoker',
-                    'Outdoors',
+                    categories[0],
                     "Who doesn't like pulled pork?!",
                     239.99,
                     32,
@@ -110,7 +110,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'Grill',
-                    'Outdoors',
+                    categories[0],
                     'Dual gas and charcoal grill!',
                     437.99,
                     12,
@@ -120,7 +120,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'T-Shirt',
-                    'Clothes',
+                    categories[2],
                     'Basic cotton t-shirt',
                     7.49,
                     89,
@@ -130,7 +130,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     'Jeans',
-                    'Clothes',
+                    categories[2],
                     'Basic denim jeans',
                     47.49,
                     79,
@@ -140,7 +140,7 @@ function createItems(cb) {
             function (callback) {
                 itemCreate(
                     '85in TV',
-                    'Entertainment',
+                    categories[1],
                     'Top of the line HD TV!',
                     2447.49,
                     4,
@@ -183,7 +183,7 @@ function createCategories(cb) {
 }
 
 async.series(
-    [createItems, createCategories],
+    [createCategories, createItems],
     // Optional callback
     function (err, results) {
         if (err) {

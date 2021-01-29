@@ -1,11 +1,36 @@
+const async = require('async');
 const Category = require('../models/category');
+const Item = require('../models/item');
 
-exports.category_list = function (req, res) {
-    res.send('Category list');
+exports.category_list = function (req, res, next) {
+    Category.find({}).exec(function (err, category_list) {
+        if (err) return next(err);
+        res.render('category_list', {
+            title: 'All Categories',
+            data: category_list,
+        });
+    });
 };
 
-exports.category_detail = function (req, res) {
-    res.send('Category detail');
+exports.category_detail = function (req, res, next) {
+    async.parallel(
+        {
+            category: function (cb) {
+                Category.findById(req.params.id).exec(cb);
+            },
+            category_items: function (cb) {
+                Item.find({ category: req.params.id }).exec(cb);
+            },
+        },
+        function (err, results) {
+            console.log(results);
+            if (err) return next(err);
+            res.render('category_details', {
+                title: 'Category List',
+                data: results,
+            });
+        }
+    );
 };
 
 exports.category_create_get = function (req, res) {

@@ -23,12 +23,23 @@ exports.index = function (req, res) {
     );
 };
 
-exports.item_list = function (req, res) {
-    res.send('Item List');
+exports.item_list = function (req, res, next) {
+    Item.find({}).exec(function (err, item_list) {
+        if (err) {
+            return next(err);
+        }
+        res.render('item_list', { title: 'All Items', data: item_list });
+    });
 };
 
-exports.item_detail = function (req, res) {
-    res.send('Item Details');
+exports.item_detail = function (req, res, next) {
+    Item.findById(req.params.id).exec(function (err, item_detail) {
+        if (err) return next(err);
+        res.render('item_detail', {
+            title: item_detail.name,
+            data: item_detail,
+        });
+    });
 };
 
 exports.item_create_get = function (req, res) {

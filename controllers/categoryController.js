@@ -19,14 +19,15 @@ exports.category_detail = function (req, res, next) {
                 Category.findById(req.params.id).exec(cb);
             },
             category_items: function (cb) {
-                Item.find({ category: req.params.id }).exec(cb);
+                Item.find({
+                    category: req.params.id,
+                }).exec(cb);
             },
         },
         function (err, results) {
-            console.log(results);
             if (err) return next(err);
             res.render('category_details', {
-                title: 'Category List',
+                title: results.category.name,
                 data: results,
             });
         }

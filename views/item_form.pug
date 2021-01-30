@@ -9,6 +9,7 @@ block content
             //- figure out category drop down
             label(for='category') Category:
                 select(name='category')
+                    option(value='' disabled) If category does not exist, create it first
                     each category in categories
                         option(value=category._id) #{category.name}
             label(for="description") Descrption:

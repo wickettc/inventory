@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    .page-container
+      h1= title
+      
+        if data.category_items > 0
+            p #[strong You must delete the following items before deleting this category.]
+
+                h3 Items
+                    ul
+                    each item in data.category_items
+                        li
+                            a(href=item.url) #{item.name}
+        else 
+            p #[strong Do you really want to delete this category?]
+
+            form(method='POST' action='')
+                input(type='hidden' name='categoryid' required='true' value=`${data.category.id}`)
+
+                button Delete
+
+
+

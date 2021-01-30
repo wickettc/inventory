@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    .page-container
+    h1= title
+
+    p #[strong Do you really want to delete this item?]
+
+    form(method='POST' action='')
+        input(type='hidden' name='itemid' required='true' value=`${data.id}`)
+        button Delete

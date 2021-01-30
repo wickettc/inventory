@@ -111,12 +111,18 @@ exports.item_create_post = [
     },
 ];
 
-exports.item_delete_get = function (req, res) {
-    res.send('Item delete GET');
+exports.item_delete_get = function (req, res, next) {
+    Item.findById(req.params.id).exec(function (err, item) {
+        if (err) return next(err);
+        res.render('item_delete', { title: `Delete ${item.name}`, data: item });
+    });
 };
 
-exports.item_delete_post = function (req, res) {
-    res.send('Item delete POST');
+exports.item_delete_post = function (req, res, next) {
+    Item.findByIdAndRemove(req.body.itemid, (err) => {
+        if (err) return next(err);
+        res.redirect('/catalog/items')
+    })
 };
 
 exports.item_update_get = function (req, res) {

@@ -85,12 +85,53 @@ exports.category_create_post = [
     },
 ];
 
-exports.category_delete_get = function (req, res) {
-    res.send('Category delete GET');
+exports.category_delete_get = function (req, res, next) {
+    async.parallel(
+        {
+            category: function (cb) {
+                Category.findById(req.params.id).exec(cb);
+            },
+            category_items: function (cb) {
+                Item.find({ category: req.params.id }).exec(cb);
+            },
+        },
+        function (err, results) {
+            if (err) return next(err);
+            if (results.category === null) res.redirect('/catalog/categories');
+            res.render('category_delete', {
+                title: `Delete ${results.category.name}`,
+                data: results,
+            });
+        }
+    );
 };
 
-exports.category_delete_post = function (req, res) {
-    res.send('Category delete POST');
+exports.category_delete_post = function (req, res, next) {
+    async.parallel(
+        {
+            cateogry: function (cb) {
+                Category.findById(req.body.categoryid).exec(cb);
+            },
+            category_items: function (cb) {
+                Item.find({ category: req.body.categoryid }).exec(cb);
+            },
+        },
+        function (err, results) {
+            if (err) return next(err);
+            if (results.category_items.length > 0) {
+                res.render('category_delete', {
+                    title: `Delete ${results.category.name}`,
+                    data: results,
+                });
+            } else {
+                //no items remaining, delete category
+                Category.findByIdAndRemove(req.body.categoryid, (err) => {
+                    if (err) return next(err);
+                    res.redirect('/catalog/categories');
+                });
+            }
+        }
+    );
 };
 
 exports.category_update_get = function (req, res) {

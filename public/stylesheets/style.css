@@ -21,6 +21,18 @@ body {
     color: gray;
 }
 
+.actions {
+    margin-top: 5px;
+    border: 1px solid rgba(167, 167, 167, 0.144);
+    background-color: rgb(165, 165, 165);
+    border-radius: 25%;
+    padding: 7px;
+}
+
+.actions a {
+    margin: 5px;
+}
+
 /* Nav-Bar */
 nav {
     background-color: rgb(165, 165, 165);

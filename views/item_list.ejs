@@ -10,10 +10,10 @@
             <% data.forEach(item => { %>
             <div class="item-container">
                 <h3><a href="<%= item.url %>"><%= item.name %></a></h3>
-                <div>Category: <%= item.category %></div>
                 <div><%= item.description %></div>
                 <div>$<%= item.price %></div>
                 <div>Available: <%= item.stock_available %></div>
+                <a href="<%= item.similar_items %>">Check out Similar Items</a>
                 <!-- img?? -->
                 <hr />
             </div>

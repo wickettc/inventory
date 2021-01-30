@@ -48,6 +48,11 @@ nav li a:hover {
     color: gray;
 }
 
+/* home */
+.home-link a {
+    text-decoration: underline;
+}
+
 /* items */
 
 .item-container {
@@ -57,6 +62,6 @@ nav li a:hover {
     align-items: center;
 }
 
-.item-container hr {
-    width: 100%;
+hr {
+    width: 80%;
 }

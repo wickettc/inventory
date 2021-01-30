@@ -1,9 +1,10 @@
 const Item = require('../models/item');
 const Category = require('../models/category');
+const { body, validationResult } = require('express-validator');
 
 const async = require('async');
 
-exports.index = function (req, res) {
+exports.index = function (req, res, next) {
     async.parallel(
         {
             item_count: function (cb) {
@@ -14,6 +15,7 @@ exports.index = function (req, res) {
             },
         },
         function (err, results) {
+            if (err) return next(err);
             res.render('index', {
                 title: 'Inventory Home Page',
                 error: err,
@@ -43,12 +45,41 @@ exports.item_detail = function (req, res, next) {
 };
 
 exports.item_create_get = function (req, res) {
-    res.send('Item create GET');
+    res.render('item_form', { title: 'Add Item' });
 };
 
-exports.item_create_post = function (req, res) {
-    res.send('Item create POST');
-};
+exports.item_create_post = [
+    body('name', 'Item name required').trim().isLength({ min: 1 }).escape(),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        const item = new Item({ name: req.body.name });
+        if (!errors.isEmpty()) {
+            //errors are present
+            res.render('item_form', {
+                title: 'Create Item',
+                item: item,
+                errors: errors.array(),
+            });
+            return;
+        } else {
+            //data is valid
+            Item.findOne({ name: req.body.name }).exec(function (
+                err,
+                found_item
+            ) {
+                if (err) return next(err);
+                if (found_item) {
+                    res.redirect(found_item.url);
+                } else {
+                    item.save(function (err) {
+                        //save new item and redirect to page
+                        res.redirect(item.url);
+                    });
+                }
+            });
+        }
+    },
+];
 
 exports.item_delete_get = function (req, res) {
     res.send('Item delete GET');

@@ -14,4 +14,8 @@ ItemSchema.virtual('url').get(function () {
     return '/catalog/item/' + this._id;
 });
 
+ItemSchema.virtual('similar_items').get(function () {
+    return '/catalog/category/' + this.category;
+});
+
 module.exports = mongoose.model('Item', ItemSchema);

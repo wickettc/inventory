@@ -3,6 +3,9 @@ extends layout
 block content
     .page-container
         h1= title
+        p= data.category.description
+        hr
+
 
         each item in data.category_items
             .item-container

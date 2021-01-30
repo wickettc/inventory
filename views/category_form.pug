@@ -3,7 +3,7 @@ extends layout
 block content
     .page-container
         h1= title
-        form(action="/category/create" method="POST")
+        form(action="" method="POST")
             label(for="name") Name:
                 input(type="text" name='name' required='true' value=(undefined===category ? '' : category.name))
             label(for="description") Description: 

@@ -43,15 +43,46 @@ exports.item_detail = function (req, res, next) {
     });
 };
 
-exports.item_create_get = function (req, res) {
-    res.render('item_form', { title: 'Add Item' });
+exports.item_create_get = function (req, res, next) {
+    Category.find({}).exec(function (err, categories_found) {
+        if (err) return next(err);
+        res.render('item_form', {
+            title: 'Add Item',
+            categories: categories_found,
+        });
+    });
 };
 
 exports.item_create_post = [
-    body('name', 'Item name required').trim().isLength({ min: 1 }).escape(),
+    body('name', 'Item name required')
+        .trim()
+        .isLength({ min: 1 })
+        .escape()
+        .withMessage('Name must be specified'),
+    body('description', 'Item description required')
+        .trim()
+        .isLength({ min: 4 })
+        .escape()
+        .withMessage('Description must be specified'),
+    body('price', 'Item price required')
+        .trim()
+        .isCurrency()
+        .escape()
+        .withMessage('Price must be specified'),
+    body('stock_available', 'Items available required')
+        .trim()
+        .isNumeric({ min: 1 })
+        .escape()
+        .withMessage('Stock availability must be specified'),
     (req, res, next) => {
         const errors = validationResult(req);
-        const item = new Item({ name: req.body.name });
+        const item = new Item({
+            name: req.body.name,
+            category: req.body.category,
+            description: req.body.description,
+            price: req.body.price,
+            stock_available: req.body.stock_available,
+        });
         if (!errors.isEmpty()) {
             //errors are present
             res.render('item_form', {

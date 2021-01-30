@@ -134,8 +134,8 @@ exports.category_delete_post = function (req, res, next) {
     );
 };
 
-exports.category_update_get = function (req, res) {
-    res.send('Category update GET');
+exports.category_update_get = function (req, res, next) {
+    res.send('category update get');
 };
 
 exports.category_update_post = function (req, res) {

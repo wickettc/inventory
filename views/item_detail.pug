@@ -4,6 +4,6 @@ block content
     .page-container
         h1= title
         div= data.description
-        div Category #{data.category}
         div $ #{data.price}
         div Available: #{data.stock_available}
+        a(href=`${data.similar_items}`) Check out Similar Items

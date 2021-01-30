@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .page-container
+        h1= title
+        form(action="/category/create" method="POST")
+            label(for="name") Name:
+                input(type="text" name='name' required='true' value=(undefined===category ? '' : category.name))
+            label(for="description") Description: 
+                input(type="text" name='description' required='true' value=(undefined===category ? '' : category.description) )
+            input(type="submit")
+        
+        if errors
+            ul 
+                for error in errors
+                    li!= error.msg

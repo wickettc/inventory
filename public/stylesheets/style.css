@@ -65,3 +65,13 @@ nav li a:hover {
 hr {
     width: 80%;
 }
+
+/* forms */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form input {
+    width: 100%;
+}

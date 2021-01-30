@@ -1,8 +1,7 @@
+const async = require('async');
 const Item = require('../models/item');
 const Category = require('../models/category');
 const { body, validationResult } = require('express-validator');
-
-const async = require('async');
 
 exports.index = function (req, res, next) {
     async.parallel(

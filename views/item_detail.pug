@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    .page-container
+        h1= title
+        div= data.description
+        div Category #{data.category}
+        div $ #{data.price}
+        div Available: #{data.stock_available}

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    .page-container
+        h1= title
+        form(action="" method="POST")
+            label(for="name") Name:
+            input(type="text" name='name')
+            input(type="submit")

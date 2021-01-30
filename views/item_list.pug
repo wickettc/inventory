@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .page-container
+        h1= title
+        
+        each item in data
+            .item-container
+                h3
+                    a(href=`${item.url}`) #{item.name}
+                div= item.description
+                div $ #{item.price}
+                div Available: #{item.stock_available}
+                a(href=`${item.similar_items}`) Check out Similar Items
+                hr

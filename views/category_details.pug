@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    .page-container
+        h1= title
+
+        each item in data.category_items
+            .item-container
+                h3
+                    a(href=`${item.url}`) #{item.name}
+                div= item.description
+                div $ #{item.price}
+                div Available: #{item.stock_available}
+                hr

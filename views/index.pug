@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    .page-container
+      h1= title
+      p Welcome to the Home Page
+      p
+        | We currently have #{data.item_count} different types of
+        | items in #{data.category_count} different categories
+      p
+        | Search through 
+        a.home-link(href='/catalog/items/') all items
+        |  or search by 
+        a.home-link(href='/catalog/categories/') category

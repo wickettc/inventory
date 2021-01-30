@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    .page-container
+        h1= title
+        
+        each category in data
+            h3
+                a(href=`${category.url}`) #{category.name}
+            hr

@@ -4,7 +4,7 @@ block content
     .page-container
       h1= title
       
-        if data.category_items > 0
+        if data.category_items.length > 0
             p #[strong You must delete the following items before deleting this category.]
 
                 h3 Items

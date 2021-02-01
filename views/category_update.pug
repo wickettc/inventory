@@ -2,6 +2,20 @@ extends layout
 
 block content
     .page-container
-    h1= title
+        h1= title
 
-   
+        if data.category_items.length > 0
+            p #[strong You will also update the catgory for these items]
+
+            ul
+            each item in data.category_items
+                li
+                    a(href=item.url) #{item.name}
+            
+        form(method='POST' action='')
+            input(type='hidden' name='categoryid' required='true' value=data.category.id)
+            label(for="name") Name:
+                input(type="text" name='name' value=data.category.name required='true')
+            label(for='description') Description:
+                input(type='text' name='description' value=data.category.description required='true')
+            button Update

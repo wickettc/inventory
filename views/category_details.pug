@@ -2,8 +2,8 @@ extends layout
 
 block content
     .page-container
-        h1= title
-        p= data.category.description
+        h1 !{title}
+        p !{data.category.description}
         div.actions 
             a(href= data.category.url + "/delete")
                 svg(xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24")
@@ -16,8 +16,8 @@ block content
         each item in data.category_items
             .item-container
                 h3
-                    a(href=`${item.url}`) #{item.name}
-                div= item.description
+                    a(href=`${item.url}`) !{item.name}
+                div !{item.description}
                 div $ #{item.price}
                 div Available: #{item.stock_available}
-                hr
+                hr 

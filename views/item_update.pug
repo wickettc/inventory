@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    .page-container
+        h1= title
+            
+        form(method='POST' action='')
+            input(type='hidden' name='itemid' required='true' value=data.id)
+            label(for="name") Name:
+                input(type="text" name='name' value=data.name required='true')
+            label(for='description') Description:
+                input(type='text' name='description' value=data.description required='true')
+            label(for='price') Price:
+                input(type='text' name='price' value=data.price required='true')
+            label(for='stock_available') Available:
+                input(type='text' name='stock_available' value=data.stock_available required='true')
+            button Update

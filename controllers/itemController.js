@@ -121,14 +121,63 @@ exports.item_delete_get = function (req, res, next) {
 exports.item_delete_post = function (req, res, next) {
     Item.findByIdAndRemove(req.body.itemid, (err) => {
         if (err) return next(err);
-        res.redirect('/catalog/items')
-    })
+        res.redirect('/catalog/items');
+    });
 };
 
-exports.item_update_get = function (req, res) {
-    res.send('Item update GET');
+exports.item_update_get = function (req, res, next) {
+    Item.findById(req.params.id).exec(function (err, item) {
+        if (err) return next(err);
+        res.render('item_update', { title: `Update ${item.name}`, data: item });
+    });
 };
 
-exports.item_update_post = function (req, res) {
-    res.send('Item update POST');
-};
+exports.item_update_post = [
+    body('name', 'Item name required')
+        .trim()
+        .isLength({ min: 1 })
+        .escape()
+        .withMessage('Name must be specified'),
+    body('description', 'Item description required')
+        .trim()
+        .isLength({ min: 4 })
+        .escape()
+        .withMessage('Description must be specified'),
+    body('price', 'Item price required')
+        .trim()
+        .isCurrency()
+        .escape()
+        .withMessage('Price must be specified'),
+    body('stock_available', 'Items available required')
+        .trim()
+        .isNumeric({ min: 1 })
+        .escape()
+        .withMessage('Stock availability must be specified'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            // there ARE errors
+            res.render('item_update', {
+                title: `Update ${req.body.name}`,
+                data: req.body,
+                errors: errors.array(),
+            });
+            return;
+        } else {
+            // data is valid
+            Item.findByIdAndUpdate(
+                req.body.itemid,
+                {
+                    name: req.body.name,
+                    description: req.body.description,
+                    price: req.body.price,
+                    stock_available: req.body.stock_available,
+                },
+                (err, updatedItem) => {
+                    if (err) return next(err);
+                    res.redirect(updatedItem.url);
+                }
+            );
+        }
+    },
+];

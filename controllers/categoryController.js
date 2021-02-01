@@ -117,6 +117,7 @@ exports.category_delete_post = function (req, res, next) {
             },
         },
         function (err, results) {
+            console.log(results);
             if (err) return next(err);
             if (results.category_items.length > 0) {
                 res.render('category_delete', {
@@ -135,9 +136,60 @@ exports.category_delete_post = function (req, res, next) {
 };
 
 exports.category_update_get = function (req, res, next) {
-    res.send('category update get');
+    async.parallel(
+        {
+            category: function (cb) {
+                Category.findById(req.params.id).exec(cb);
+            },
+            category_items: function (cb) {
+                Item.find({ category: req.params.id }).exec(cb);
+            },
+        },
+        function (err, results) {
+            if (err) return next(err);
+            if (results.category === null) res.redirect('/catalog/categories');
+            res.render('category_update', {
+                title: `Update ${results.category.name}`,
+                data: results,
+            });
+        }
+    );
 };
 
-exports.category_update_post = function (req, res) {
-    res.send('Category update POST');
-};
+exports.category_update_post = [
+    body('name', 'Category name required')
+        .trim()
+        .isLength({ min: 1 })
+        .escape()
+        .withMessage('Name must be specified'),
+    body('description', 'Category description required')
+        .trim()
+        .isLength({ min: 1 })
+        .escape()
+        .withMessage('Description must be specified'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            //errors are present
+            res.render('category_update', {
+                title: `Update ${req.body.name}`,
+                data: req.body,
+                errors: errors.array(),
+            });
+            return;
+        } else {
+            //data is valid
+            Category.findByIdAndUpdate(
+                req.body.categoryid,
+                {
+                    name: req.body.name,
+                    description: req.body.description,
+                },
+                (err, updatedCategory) => {
+                    if (err) return next(err);
+                    res.redirect(updatedCategory.url);
+                }
+            );
+        }
+    },
+];
